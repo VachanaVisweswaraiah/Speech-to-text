@@ -30,11 +30,11 @@ APP_TITLE: str = "🎧 Voice to Text Converter"
 APP_CAPTION: str = "Record or upload an audio file — transcribe it using OpenAI Whisper."
 
 
-def get_api_key() -> str | None:
+def get_api_key():
     """
     Retrieve OpenAI API key from environment variables.
-    
+
     Returns:
-        str | None: API key if available, None otherwise.
+        str or None: API key if available, None otherwise.
     """
     return os.getenv("OPENAI_API_KEY")

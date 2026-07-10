@@ -91,9 +91,7 @@ if audio_path and st.button("🚀 Start Transcription", use_container_width=True
                 )
 
                 st.success("✅ Done!")
-                corrected = st.text_area(
-                    "✍️ Edit transcript:", text, height=400
-                )
+                corrected = st.text_area("✍️ Edit transcript:", text, height=400)
                 st.download_button(
                     "💾 Download",
                     corrected,

@@ -4,3 +4,6 @@ python-dotenv
 audio-recorder-streamlit
 pytest
 pytest-cov
+black
+pylint
+flake8

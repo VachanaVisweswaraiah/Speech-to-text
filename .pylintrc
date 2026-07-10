@@ -1,0 +1,49 @@
+[MASTER]
+# Use multiple processes to speed up Pylint
+jobs=4
+
+# Minimum Python version to target
+py-version=3.9
+
+[MESSAGES CONTROL]
+# C0111: missing-docstring
+# C0103: invalid-name
+# R0913: too-many-arguments
+disable=
+    missing-docstring,
+    invalid-name,
+    too-many-arguments,
+    too-many-instance-attributes,
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=100
+
+# Number of spaces of indent required inside a hanging or continued line
+indent-after-paren=4
+
+[DESIGN]
+# Maximum number of attributes for class
+max-attributes=7
+
+# Maximum number of arguments for function / method
+max-args=5
+
+# Maximum number of local variables for function / method
+max-locals=15
+
+[VARIABLES]
+# List of dummy variables used just to ignore values in multiple assignment
+dummy-variables-rgx=_+$|^ignored_|^unused_
+
+[SIMILARITIES]
+# Minimum lines number of a similarity
+min-similarity-lines=4
+
+[LOGGING]
+# Logging modules which allow setup argument with logging string formatting
+logging-modules=logging
+
+[SPELLING]
+# Limits count of emitted suggestions for spelling mistakes
+max-spelling-suggestions=4

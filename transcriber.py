@@ -13,13 +13,13 @@ import config
 def initialize_client(api_key: str) -> OpenAI:
     """
     Initialize OpenAI client with API key.
-    
+
     Args:
         api_key (str): OpenAI API key.
-        
+
     Returns:
         OpenAI: Initialized OpenAI client.
-        
+
     Raises:
         ValueError: If API key is empty.
     """
@@ -28,23 +28,21 @@ def initialize_client(api_key: str) -> OpenAI:
     return OpenAI(api_key=api_key)
 
 
-def transcribe_audio(
-    file_path: str, client: OpenAI, chunk_length_sec: int = 600
-) -> str:
+def transcribe_audio(file_path: str, client: OpenAI, chunk_length_sec: int = 600) -> str:
     """
     Transcribe audio file using OpenAI Whisper API.
-    
+
     Automatically handles long audio by splitting into chunks
     and concatenating transcriptions.
-    
+
     Args:
         file_path (str): Path to audio file (mp3, wav, m4a).
         client (OpenAI): Initialized OpenAI client.
         chunk_length_sec (int): Length of chunks in seconds. Defaults to 600 (10 min).
-        
+
     Returns:
         str: Transcribed text from all chunks.
-        
+
     Raises:
         RuntimeError: If transcription fails.
     """
@@ -64,7 +62,7 @@ def transcribe_audio(
                         model=config.WHISPER_MODEL, file=f
                     )
                     text = transcription.text
-                
+
                 # Add chunk separator if multiple chunks
                 if len(chunks) > 1:
                     full_text += f"\n--- Chunk {i + 1} ---\n{text}\n"
@@ -87,13 +85,13 @@ def transcribe_audio_with_callback(
 ) -> str:
     """
     Transcribe audio with progress callback for UI updates.
-    
+
     Args:
         file_path (str): Path to audio file.
         client (OpenAI): Initialized OpenAI client.
         progress_callback (callable, optional): Function to call with progress (0.0-1.0).
         chunk_length_sec (int): Length of chunks in seconds. Defaults to 600 (10 min).
-        
+
     Returns:
         str: Transcribed text from all chunks.
     """
@@ -113,13 +111,13 @@ def transcribe_audio_with_callback(
                         model=config.WHISPER_MODEL, file=f
                     )
                     text = transcription.text
-                
+
                 # Add chunk separator if multiple chunks
                 if len(chunks) > 1:
                     full_text += f"\n--- Chunk {i + 1} ---\n{text}\n"
                 else:
                     full_text += text
-                
+
                 # Call progress callback if provided
                 if progress_callback:
                     progress_callback((i + 1) / len(chunks))

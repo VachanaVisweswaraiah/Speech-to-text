@@ -171,9 +171,7 @@ class TestTranscribeAudioWithCallback(unittest.TestCase):
 
         # This should not raise an exception with None callback
         with patch("builtins.open", create=True):
-            result = transcriber.transcribe_audio_with_callback(
-                "/tmp/input.mp3", mock_client, None
-            )
+            result = transcriber.transcribe_audio_with_callback("/tmp/input.mp3", mock_client, None)
 
         self.assertIsNotNone(result)
 
