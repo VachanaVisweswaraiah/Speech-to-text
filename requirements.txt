@@ -2,3 +2,5 @@ streamlit
 openai
 python-dotenv
 audio-recorder-streamlit
+pytest
+pytest-cov
