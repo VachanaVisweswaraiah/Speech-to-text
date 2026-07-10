@@ -1,0 +1,21 @@
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore environment variables
+.env
+
+# Ignore Streamlit cache and system folders
+.streamlit/
+__pycache__/
+*.pyc
+
+# Ignore generated audio files
+*.mp3
+*.wav
+*.m4a
+*.ogg
+
+# Ignore local temp files
+*.tmp
+*.log
