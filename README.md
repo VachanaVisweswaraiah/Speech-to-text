@@ -1,5 +1,12 @@
 # Speech-to-Text Converter
 
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red?style=flat-square)
+![OpenAI](https://img.shields.io/badge/OpenAI-Whisper-412991?style=flat-square)
+![FFmpeg](https://img.shields.io/badge/FFmpeg-Audio_Processing-green?style=flat-square)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-Pytest-yellow?style=flat-square)
+
 A Streamlit application for converting recorded or uploaded audio into editable transcripts with OpenAI Whisper. The app includes browser recording, file upload, chunked transcription for longer recordings, local user accounts, transcript history, logging, and Docker support.
 
 ## Features
