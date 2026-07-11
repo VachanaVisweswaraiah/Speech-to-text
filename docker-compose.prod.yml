@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: speech-to-text-prod
+    ports:
+      - "8501:8501"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      STREAMLIT_SERVER_HEADLESS: "true"
+      STREAMLIT_SERVER_PORT: "8501"
+      STREAMLIT_SERVER_RUN_ON_SAVE: "false"
+      LOG_LEVEL: "WARNING"
+    volumes:
+      - app-data:/app/data
+      - app-logs:/app/logs
+    networks:
+      - speech-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=speech-to-text"
+
+networks:
+  speech-network:
+    driver: bridge
+
+volumes:
+  app-data:
+    driver: local
+  app-logs:
+    driver: local
