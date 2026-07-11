@@ -109,9 +109,9 @@ def get_user_transcripts(username: str) -> List[Dict]:
                 {
                     "filename": data["filename"],
                     "created_at": data["created_at"],
-                    "preview": data["text"][:100] + "..."
-                    if len(data["text"]) > 100
-                    else data["text"],
+                    "preview": (
+                        data["text"][:100] + "..." if len(data["text"]) > 100 else data["text"]
+                    ),
                     "length": len(data["text"]),
                 }
             )
