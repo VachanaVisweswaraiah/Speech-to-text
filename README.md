@@ -1,53 +1,46 @@
-# 🎙️ Speech-to-Text Converter
+# Speech-to-Text Converter
 
-A practical AI application for converting recorded or uploaded audio into editable transcripts using OpenAI Whisper. The project combines a polished Streamlit interface with backend audio processing so long recordings can be handled reliably in chunks.
+A Streamlit application for converting recorded or uploaded audio into editable transcripts with OpenAI Whisper. The app includes browser recording, file upload, chunked transcription for longer recordings, local user accounts, transcript history, logging, and Docker support.
 
-## Why this project matters
+## Features
 
-This project demonstrates a strong foundation in:
-- AI product development
-- Python-based application building
-- API integration with modern LLM and speech models
-- UI/UX for real-world tools
-- End-to-end workflow design from upload to downloadable output
+- Record audio directly in the browser
+- Upload MP3, WAV, and M4A files
+- Convert audio to 16 kHz WAV with FFmpeg
+- Split long audio into configurable chunks before transcription
+- Transcribe audio with the OpenAI Whisper API
+- Edit transcripts before saving or downloading
+- Save transcript history per user
+- Manage local user sessions
+- Track logs and transcription performance metrics
+- Run locally or with Docker Compose
 
-## Key capabilities
+## Tech Stack
 
-- Record audio directly in the browser or upload an existing file
-- Transcribe MP3, WAV, and M4A audio
-- Split long recordings into manageable chunks for reliable processing
-- Review and edit the transcript in the browser
-- Download the final transcript as a plain text file
+- Python
+- Streamlit
+- OpenAI API
+- FFmpeg / FFprobe
+- Pytest
+- Black, Flake8, Pylint
+- Docker
 
-## Tech stack
+## Getting Started
 
-- Frontend/UI: Streamlit
-- Speech-to-text: OpenAI Whisper API
-- Audio handling: FFmpeg, pydub
-- Environment management: python-dotenv
-- Deployment target: Streamlit Cloud or any Python hosting environment
+### Prerequisites
 
-## Project structure
+- Python 3.9+
+- FFmpeg installed and available on your `PATH`
+- OpenAI API key
 
-```text
-Speech-to-text-main/
-├── app.py
-├── README.md
-├── requirements.txt
-├── .gitignore
-└── .devcontainer/
-```
-
-## Local setup
-
-1. Clone the repository
+Install FFmpeg:
 
 ```bash
-git clone https://github.com/VachanaVisweswaraiah/Speech-to-text.git
-cd Speech-to-text
+brew install ffmpeg
+sudo apt install ffmpeg
 ```
 
-2. Create and activate a virtual environment
+### Installation
 
 ```bash
 python3 -m venv .venv
@@ -56,36 +49,85 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-3. Add your OpenAI API key
+Create an environment file:
 
 ```bash
-export OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxx
+cp .env.example .env
 ```
 
-4. Install FFmpeg
+Then set your API key in `.env`:
 
 ```bash
-brew install ffmpeg            # macOS
-sudo apt install ffmpeg        # Ubuntu / Linux
+OPENAI_API_KEY=sk-your-api-key-here
 ```
 
-5. Run the app
+### Run Locally
 
 ```bash
 streamlit run app.py
 ```
 
-## What makes this a strong portfolio project
+The app runs at `http://localhost:8501`.
 
-This is a good portfolio project because it shows that you can take an AI workflow from idea to usable interface. It is especially relevant for someone building a profile around applied AI, LLM systems, and product-focused engineering.
+## Docker
 
-## Future enhancements
+Build and run with Docker Compose:
 
-- Add authentication and user accounts
-- Support batch transcription jobs
-- Add speaker diarization
-- Introduce summarization and keyword extraction
-- Add testing, logging, and CI/CD
+```bash
+docker-compose up --build
+```
+
+Production-oriented Compose configuration is available in `docker-compose.prod.yml`.
+
+## Project Structure
+
+```text
+Speech-to-text-main/
+├── app.py                    # Streamlit UI and application workflow
+├── config.py                 # Shared configuration
+├── audio_processor.py        # Audio conversion, duration, chunking, cleanup
+├── transcriber.py            # OpenAI Whisper transcription layer
+├── auth.py                   # Local users and sessions
+├── storage.py                # Transcript persistence
+├── batch_processor.py        # Batch transcription job utilities
+├── monitoring.py             # Logging and performance metrics
+├── test_audio_processor.py   # Audio processing tests
+├── test_transcriber.py       # Transcription tests
+├── Dockerfile
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── API.md
+├── ARCHITECTURE.md
+├── DEPLOYMENT.md
+└── DEVELOPMENT.md
+```
+
+## Testing and Quality
+
+Run the test suite:
+
+```bash
+uv run pytest test_*.py -v
+```
+
+Run formatting and lint checks:
+
+```bash
+uv run black --check .
+uv run flake8 app.py config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py test_audio_processor.py test_transcriber.py --max-line-length=100 --extend-ignore=E203,W503
+uv run pylint config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py --exit-zero
+```
+
+## Documentation
+
+- [Architecture](ARCHITECTURE.md)
+- [API Reference](API.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Development Guide](DEVELOPMENT.md)
+
+## Storage
+
+The app stores local runtime data under `data/` and logs under `logs/`. This keeps local and self-hosted deployments simple. For larger multi-user deployments, replace the JSON file storage with managed database and object storage services.
 
 ## Author
 

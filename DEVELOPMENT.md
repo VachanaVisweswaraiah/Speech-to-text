@@ -126,12 +126,12 @@ uv run black --check .
 
 ### Lint with Pylint
 ```bash
-uv run pylint config.py audio_processor.py transcriber.py
+uv run pylint config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py
 ```
 
 ### Lint with Flake8
 ```bash
-uv run flake8 . --max-line-length=100 --extend-ignore=E203,W503
+uv run flake8 app.py config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py test_audio_processor.py test_transcriber.py --max-line-length=100 --extend-ignore=E203,W503
 ```
 
 ### Security Checks with Bandit
@@ -148,14 +148,14 @@ To simulate the GitHub Actions pipeline locally:
 uv run black --check .
 
 # Linting
-uv run pylint config.py audio_processor.py transcriber.py
-uv run flake8 . --max-line-length=100 --extend-ignore=E203,W503
+uv run pylint config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py
+uv run flake8 app.py config.py audio_processor.py transcriber.py auth.py storage.py batch_processor.py monitoring.py test_audio_processor.py test_transcriber.py --max-line-length=100 --extend-ignore=E203,W503
 
 # Tests with coverage
 uv run pytest test_*.py -v --cov=. --cov-report=html
 
 # Security check
-uv run bandit -r . -ll --skip B101
+uv run bandit -r . -x .venv,__pycache__,.pytest_cache -ll --skip B101
 ```
 
 ## Project Structure
@@ -166,8 +166,15 @@ speech-to-text/
 ├── config.py                   # Configuration and constants
 ├── audio_processor.py          # Audio processing utilities
 ├── transcriber.py              # OpenAI Whisper integration
+├── auth.py                     # User and session management
+├── storage.py                  # Transcript persistence
+├── batch_processor.py          # Batch job utilities
+├── monitoring.py               # Logging and metrics
 ├── test_audio_processor.py     # Tests for audio_processor
 ├── test_transcriber.py         # Tests for transcriber
+├── Dockerfile                  # Container image
+├── docker-compose.yml          # Local Docker Compose setup
+├── docker-compose.prod.yml     # Production-oriented Compose setup
 ├── requirements.txt            # Python dependencies
 ├── pyproject.toml              # Project configuration (Black, Pytest, Coverage)
 ├── .pylintrc                   # Pylint configuration
@@ -176,6 +183,9 @@ speech-to-text/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml              # GitHub Actions CI/CD pipeline
+├── API.md
+├── ARCHITECTURE.md
+├── DEPLOYMENT.md
 └── README.md                   # Project documentation
 ```
 

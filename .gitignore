@@ -19,3 +19,12 @@ __pycache__/
 # Ignore local temp files
 *.tmp
 *.log
+
+# Ignore runtime data and generated reports
+data/
+logs/
+htmlcov/
+coverage.xml
+
+# Ignore local handoff/process notes
+HANDOFF.md
