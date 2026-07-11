@@ -2,7 +2,7 @@
 Transcription utilities using OpenAI Whisper API.
 """
 
-from typing import Optional
+from typing import Callable, Optional
 
 from openai import OpenAI
 
@@ -46,6 +46,9 @@ def transcribe_audio(file_path: str, client: OpenAI, chunk_length_sec: int = 600
     Raises:
         RuntimeError: If transcription fails.
     """
+    wav_path = None
+    chunks = []
+
     try:
         # Convert to WAV format
         wav_path = audio_processor.convert_to_wav(file_path)
@@ -69,18 +72,21 @@ def transcribe_audio(file_path: str, client: OpenAI, chunk_length_sec: int = 600
                 else:
                     full_text += text
             except Exception as e:
-                raise RuntimeError(f"Failed to transcribe chunk {i}: {e}")
+                raise RuntimeError(f"Failed to transcribe chunk {i}: {e}") from e
 
         return full_text.strip()
 
     except Exception as e:
-        raise RuntimeError(f"Transcription failed: {e}")
+        raise RuntimeError(f"Transcription failed: {e}") from e
+    finally:
+        temp_files = [path for path in [wav_path, *chunks] if path]
+        audio_processor.cleanup_temp_files(temp_files)
 
 
 def transcribe_audio_with_callback(
     file_path: str,
     client: OpenAI,
-    progress_callback: Optional[callable] = None,
+    progress_callback: Optional[Callable[[float], None]] = None,
     chunk_length_sec: int = 600,
 ) -> str:
     """
@@ -95,6 +101,9 @@ def transcribe_audio_with_callback(
     Returns:
         str: Transcribed text from all chunks.
     """
+    wav_path = None
+    chunks = []
+
     try:
         # Convert to WAV format
         wav_path = audio_processor.convert_to_wav(file_path)
@@ -122,9 +131,12 @@ def transcribe_audio_with_callback(
                 if progress_callback:
                     progress_callback((i + 1) / len(chunks))
             except Exception as e:
-                raise RuntimeError(f"Failed to transcribe chunk {i}: {e}")
+                raise RuntimeError(f"Failed to transcribe chunk {i}: {e}") from e
 
         return full_text.strip()
 
     except Exception as e:
-        raise RuntimeError(f"Transcription failed: {e}")
+        raise RuntimeError(f"Transcription failed: {e}") from e
+    finally:
+        temp_files = [path for path in [wav_path, *chunks] if path]
+        audio_processor.cleanup_temp_files(temp_files)

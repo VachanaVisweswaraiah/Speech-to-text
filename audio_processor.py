@@ -26,7 +26,8 @@ def convert_to_wav(input_path: str) -> str:
     Raises:
         subprocess.CalledProcessError: If ffmpeg conversion fails.
     """
-    output_path = tempfile.NamedTemporaryFile(suffix=".wav", delete=False).name
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp_file:
+        output_path = tmp_file.name
     cmd = [
         "ffmpeg",
         "-y",
@@ -41,7 +42,7 @@ def convert_to_wav(input_path: str) -> str:
     try:
         subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Failed to convert audio to WAV: {e}")
+        raise RuntimeError(f"Failed to convert audio to WAV: {e}") from e
     return output_path
 
 
@@ -121,7 +122,7 @@ def split_audio_ffmpeg(input_path: str, chunk_length_sec: int = 600) -> List[str
             subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
             paths.append(output)
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Failed to split audio chunk {i}: {e}")
+            raise RuntimeError(f"Failed to split audio chunk {i}: {e}") from e
 
     return paths
 

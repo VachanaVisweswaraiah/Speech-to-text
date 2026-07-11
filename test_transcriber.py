@@ -3,7 +3,7 @@ Unit tests for transcriber module.
 """
 
 import unittest
-from unittest.mock import MagicMock, patch, Mock
+from unittest.mock import MagicMock, patch
 
 import transcriber
 import config
